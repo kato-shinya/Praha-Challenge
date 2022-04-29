@@ -1,0 +1,83 @@
+@startuml 01
+
+Entity product {
+  product_id [PK]
+  --
+  product_price_id [FK]
+  product_name
+  display_order
+  takeout_available
+}
+
+Entity product_price {
+  product_price_id [PK]
+  product_tax_id [FK]
+  --
+  price
+}
+
+Entity product_tax {
+  product_tax_id [PK]
+  --
+  tax
+  start_at
+  end_at
+}
+
+Entity category {
+  category_id [PK]
+  --
+  parent_id
+  category_name
+  display_order
+}
+
+Entity product_category {
+  product_id [FK]
+  category_id [FK]
+}
+
+Entity customer {
+  customer_id [PK]
+  --
+  customer_name
+  phone_number
+}
+
+Entity order {
+  order_id [PK]
+  customer_id [FK]
+  order_category_id [FK]
+  --
+  total_price
+  total_plate
+  paid
+  order_date
+}
+
+Entity order_category {
+  order_category_id [PK]
+  order_id [FK]
+  --
+  category_name
+}
+
+Entity order_detail {
+  order_id [FK]
+  product_id [FK]
+  --
+  quantity
+  has_wasabi
+  rice_size
+}
+
+order }o--|| customer
+order_detail }|--|| order
+order_category ||--|{ order
+product ||--o{ order_detail
+product }|--|| product_price
+product_price }|--|| product_tax
+product_category }|--|| product
+product_category }|--|| category
+
+@enduml
