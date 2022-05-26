@@ -1,0 +1,53 @@
+@startuml 02
+
+Entity message {
+  message_id [PK]
+  channel_id [FK]
+  user_id [FK]
+  --
+  thread_id
+  text
+  created_at
+  updated_at
+  deleted_at
+}
+
+Entity channel {
+  channel_id [PK]
+  work_space_id [FK]
+  --
+  user_id [FK]
+  channel_name
+}
+
+Entity user_channel {
+  user_id [FK]
+  channel_id [FK]
+}
+
+Entity work_space {
+  work_space_id [PK]
+  --
+  work_space_name
+}
+
+Entity user_work_space {
+  work_space_id [FK]
+  user_id [FK]
+}
+
+Entity user {
+  user_id [PK]
+  --
+  user_name
+}
+
+user ||--o{ message
+user ||--|{ user_work_space
+work_space ||--|{ user_work_space
+user ||--|{ user_channel
+channel ||--|{ user_channel
+work_space ||--|{ channel
+channel ||--|{ message
+
+@enduml
